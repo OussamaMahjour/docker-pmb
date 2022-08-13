@@ -50,6 +50,9 @@ COPY --from=php-exts /usr/lib/php/20180731/yaz.so /usr/lib/php/20180731/yaz.so
 
 RUN cd /var/www/html ; wget ${PMB_URL} ; unzip pmb${PMB_VERSION}.zip ; rm pmb${PMB_VERSION}.zip ; chown -R www-data:www-data .
 
+ADD patches /tmp/patches
+
+RUN apt-get -- install patch; cd /var/www/html ; for p in /tmp/patches/*; do patch -p0 < $p; done
 ADD default /etc/nginx/sites-available/
 ADD 99-local.ini /etc/${PHP_DIR}/fpm/conf.d/
 
