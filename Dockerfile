@@ -6,8 +6,8 @@ FROM debian:buster AS base
 ARG PHP_VERSION
 
 ENV DEBIAN_FRONTEND noninteractive
-ENV PMB_VERSION=7.4.4
-ENV PMB_URL=https://forge.sigb.net/attachments/download/3877/pmb7.4.4.zip
+ENV PMB_VERSION=7.4.7
+ENV PMB_URL=https://forge.sigb.net/attachments/download/4131/pmb7.4.7.zip
 
 RUN apt-get -y update
 RUN apt-get -y install \
