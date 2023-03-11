@@ -52,7 +52,7 @@ RUN cd /var/www/html ; wget ${PMB_URL} ; unzip pmb${PMB_VERSION}.zip ; rm pmb${P
 
 ADD patches /tmp/patches
 
-RUN apt-get -- install patch; cd /var/www/html ; for p in /tmp/patches/*; do patch -p0 < $p; done
+RUN apt-get -- install patch; cd /var/www/html; for p in /tmp/patches/*.diff; do if [ -f "$p" ]; then patch -p0 < "$p"; fi; done
 ADD default /etc/nginx/sites-available/
 ADD 99-local.ini /etc/${PHP_DIR}/fpm/conf.d/
 
