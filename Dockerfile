@@ -6,8 +6,8 @@ FROM debian:buster AS base
 ARG PHP_VERSION
 
 ENV DEBIAN_FRONTEND noninteractive
-ENV PMB_VERSION=7.4.7
-ENV PMB_URL=https://forge.sigb.net/attachments/download/4131/pmb7.4.7.zip
+ENV PMB_VERSION=7.4.9
+ENV PMB_URL=https://forge.sigb.net/attachments/download/4533/pmb7.4.9.zip
 
 RUN apt-get -y update
 RUN apt-get -y install \
@@ -48,7 +48,14 @@ ARG PHP_DIR
 
 COPY --from=php-exts /usr/lib/php/20180731/yaz.so /usr/lib/php/20180731/yaz.so
 
-RUN cd /var/www/html ; wget ${PMB_URL} ; unzip pmb${PMB_VERSION}.zip ; rm pmb${PMB_VERSION}.zip ; chown -R www-data:www-data .
+RUN mkdir /var/www/html/pmb && \
+    cd /var/www/html/pmb && \
+    wget ${PMB_URL} && \
+    unzip pmb${PMB_VERSION}.zip && \
+    rm pmb${PMB_VERSION}.zip && \
+    mv pmb/* . && \
+    rmdir pmb && \
+    chown -R www-data:www-data /var/www/html/pmb
 
 ADD patches /tmp/patches
 
